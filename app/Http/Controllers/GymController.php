@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Gym;
+use Session;
 use Illuminate\Http\Request;
 
 class GymController extends Controller
@@ -25,7 +26,7 @@ class GymController extends Controller
      */
     public function create()
     {
-        //
+        return view('gym.create');
     }
 
     /**
@@ -36,7 +37,16 @@ class GymController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|min:4',
+            'about' => 'required|min:15',
+        ]);
+        Gym::create([
+            'name' => $request->name,
+            'about' => $request->about,
+        ]);
+        Session::flash('message', 'Gym added successfully');
+        return redirect()->back();
     }
 
     /**
@@ -81,6 +91,7 @@ class GymController extends Controller
      */
     public function destroy(Gym $gym)
     {
-        //
+        $gym->delete();
+        return redirect(route('gyms.index'));
     }
 }

@@ -3,7 +3,14 @@
 @section('content')
   <div class="container">
     <div class="p-5 bg-info text-white my-2">
-      <h3>{{$gym->name}}</h3>
+      <div class="d-flex justify-content-between mb-3">
+        <h3>{{$gym->name}} </h3>
+        <form onsubmit="return confirm('Are you sure you want\' to delete this entry and associated exercises?')" action="{{route('gyms.destroy', $gym->id)}}" method="post" class="d-inline">
+          @csrf
+          @method('delete')
+          <button type="sumit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
       <p>{{$gym->about}}</p>
     </div>
     <table class="table table-border">
